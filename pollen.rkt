@@ -16,7 +16,7 @@
   `(txt "\\href{" ,(if mail "mailto:" "") ,@(if link (list link) elems)  "}{" ,@elems "}"))
 
 (define (tex-C++ str)
-  (string-replace str "C++" "C\\kern-0.2ex \\raise .15ex \\hbox{+\\kern-0.4ex +}"))
+  (string-replace str "C++" "C\\kern-0.2ex \\raise .1ex \\hbox{+\\kern-0.4ex +}"))
 
 (define (CVheader . elements)
   `(txt "\\begin{center}\n" ,@elements "\n\\end{center}"))
