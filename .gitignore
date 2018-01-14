@@ -218,3 +218,10 @@ TSWLatexianTemp*
 
 # expex forward references with \gathertags
 *-tags.tex
+
+####
+
+# pollen output files
+pollen-latex-work/*
+compiled/*
+*.pdf
