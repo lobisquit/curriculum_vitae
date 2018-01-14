@@ -1,0 +1,1 @@
+◊(make-latex-source doc)
