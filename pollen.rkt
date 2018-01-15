@@ -11,31 +11,40 @@
 
 (define (sl . elements)
   (case (current-poly-target)
-    [(pdf ltx) `(txt "\\textsl{" ,@elements "}")]
-    [(html) (txexpr 'i empty elements)]))
+    [(pdf ltx) (txexpr 'textsl empty elements)]
+    [(html)    (txexpr 'i empty elements)     ]))
 
 (define (url #:link [link #f] #:mail [mail #f] . elements)
   (let* (;; flatten content, to extract url (if needed)
          ;; NOTE works only with HTML, since LaTeX is already
          ;; converted to string and cannot be flattened (yet)
-         (uri (apply string-append
-                     (filter string? (flatten elements))))
+
+         ;; (asd (display (~a "link: " link "\n")))
+         (asd (display (~a "elements: " (flatten elements) "\n")))
+         (uri (apply string-append (filter string? (flatten elements))))
 
          ;; override default link if requested
          (uri (if link link uri))
 
          ;; add mailto if requested
-         (uri (string-append (if mail "mailto:" "") uri)))
+         (uri (string-append (if mail "mailto:" "") uri))
+         (asd (display (~a "uri: " uri "\n")))
+         )
 
     (case (current-poly-target)
-      [(pdf ltx) `(txt "\\href{" ,uri  "}{" ,@elements "}")]
+      [(pdf ltx html) (let ((expr (txexpr 'txt empty `("\\href{" ,uri  "}{" ,@elements "}"))))
+                   (begin
+                     (display (~a "------->> " expr))
+                     expr)
+                   )]
       [(html) (txexpr 'a `((href ,uri)) elements)])))
 
 (define (tex-C++ str)
   (case (current-poly-target)
     [(pdf ltx) (string-replace str "C++"
-                               "C\\kern-0.2ex "
-                               "\\raise .1ex \\hbox{+\\kern-0.4ex +}")]
+                               (string-append
+                                "C\\kern-0.2ex "
+                                "\\raise .1ex \\hbox{+\\kern-0.4ex +}"))]
     [(html) str]))
 
 (define (CVheader . elements)

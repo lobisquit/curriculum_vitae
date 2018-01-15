@@ -4,7 +4,7 @@
   ◊CVname{Enrico Lovisotto}
   ◊CVaddress{via Antonio Gardin 7,
   31020 San Fior (TV), Italy}
-  ◊CVphone{(+39) 340 96 858 72}, ◊url[#:mail #t]{enricolovisotto@gmail.com}
+  ◊CVphone{(+39) 340 96 858 72}, ◊url[#:mail #t]{◊sl{enricolovisotto}@gmail.com}
 }
 
 ◊CVsection[#:title "Education"]{
