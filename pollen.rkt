@@ -33,9 +33,10 @@
 
 (define (tex-C++ str)
   (case (current-poly-target)
-    [(pdf ltx) (string-replace str "C++"
-                               "C\\kern-0.2ex "
-                               "\\raise .1ex \\hbox{+\\kern-0.4ex +}")]
+    [(pdf ltx)
+     (string-replace str "C++"
+                     (string-append "C\\kern-0.2ex "
+                                    "\\raise .1ex \\hbox{+\\kern-0.4ex +}"))]
     [(html) str]))
 
 (define (CVheader . elements)
