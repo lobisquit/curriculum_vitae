@@ -18,14 +18,18 @@
   (let* (;; flatten content, to extract url (if needed)
          ;; NOTE works only with HTML, since LaTeX is already
          ;; converted to string and cannot be flattened (yet)
-         (uri (apply string-append (filter string? (flatten elements))))
+         (uri (apply string-append
+                     (filter string? (flatten elements))))
+
          ;; override default link if requested
          (uri (if link link uri))
+
          ;; add mailto if requested
          (uri (string-append (if mail "mailto:" "") uri)))
+
     (case (current-poly-target)
       [(pdf ltx) `(txt "\\href{" ,uri  "}{" ,@elements "}")]
-      [(html) `(a ((href ,uri)) ,@elements)])))
+      [(html) (txexpr 'a `((href ,uri)) elements)])))
 
 (define (tex-C++ str)
   (case (current-poly-target)
@@ -86,10 +90,8 @@
     [(html) (txexpr 'ul empty elements)]))
 
 (define (CVitem #:bullet [bullet #t]
-                #:tag [tag #f]
-                #:tagsize [tagsize 0.48]
-                . elements)
-
+               #:tag [tag #f]
+               #:tagsize [tagsize 0.48] . elements)
   (case (current-poly-target)
     ;; conditionally set pieces of item
     [(pdf ltx)
@@ -102,7 +104,7 @@
                    (style ,(if bullet "" "list-style-type: none;")))
              ;; merge tag with other elements
              `( ,(if tag
-                     ;; apply proper attrs to tag
+                     ;; apply proper attrs to tag, if any
                      (attr-set*
                       (cond
                         ;; enclose string in a x-expression
