@@ -3,7 +3,7 @@
 ◊CVheader{
   ◊CVname{Name Surname}
   ◊CVaddress{Street Something 32, Somewhere}
-  ◊CVphone{555 3030}, ◊url[#:mail true]{mail@example.com}
+  ◊CVphone{555 3030}, ◊url[#:mail #t]{mail@example.com}
 }
 
 ◊CVsection[#:title "Education"]{
@@ -48,7 +48,7 @@
       Python, R, Matlab, C++, Rust, Racket
     }
     ◊CVitem[#:tag "Data analysis and machine learning"]{
-      Pandas, Scikit-learn, R data frames, ggplot
+      Pandas, Scikit-learn, R dataframes
     }
     ◊CVitem[#:tag "Foreign languages"]{
       English B2, certified by Padova university

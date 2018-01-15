@@ -7,61 +7,116 @@
 
 (module setup racket/base
   (provide (all-defined-out))
-  (define poly-targets '(ltx pdf)))
+  (define poly-targets '(html ltx pdf)))
 
 (define (sl . elements)
-  `(txt "\\textsl{" ,@elements "}"))
+  (case (current-poly-target)
+    [(pdf ltx) `(txt "\\textsl{" ,@elements "}")]
+    [(html) (txexpr 'i empty elements)]))
 
-(define (url #:link [link #f] #:mail [mail #f] . elems)
-  `(txt "\\href{" ,(if mail "mailto:" "") ,@(if link (list link) elems)  "}{" ,@elems "}"))
+(define (url #:link [link #f] #:mail [mail #f] . elements)
+  (let* (;; flatten content, to extract url (if needed)
+         ;; NOTE works only with HTML, since LaTeX is already
+         ;; converted to string and cannot be flattened (yet)
+         (uri (apply string-append (filter string? (flatten elements))))
+         ;; override default link if requested
+         (uri (if link link uri))
+         ;; add mailto if requested
+         (uri (string-append (if mail "mailto:" "") uri)))
+    (case (current-poly-target)
+      [(pdf ltx) `(txt "\\href{" ,uri  "}{" ,@elements "}")]
+      [(html) `(a ((href ,uri)) ,@elements)])))
 
 (define (tex-C++ str)
-  (string-replace str "C++" "C\\kern-0.2ex \\raise .1ex \\hbox{+\\kern-0.4ex +}"))
+  (case (current-poly-target)
+    [(pdf ltx) (string-replace str "C++"
+                               "C\\kern-0.2ex "
+                               "\\raise .1ex \\hbox{+\\kern-0.4ex +}")]
+    [(html) str]))
 
 (define (CVheader . elements)
-  `(txt "\\begin{center}\n" ,@elements "\n\\end{center}"))
+  (case (current-poly-target)
+    [(pdf ltx) `(txt "\\begin{center}\n" ,@elements "\n\\end{center}")]
+    [(html) (txexpr 'div '((class "CVheader")) elements)]))
 
 (define (CVname . elements)
-  `(txt "{\\Huge " ,(apply string-upcase elements) "}\n"))
+  (case (current-poly-target)
+    [(pdf ltx) `(txt "{\\Huge " ,(apply string-upcase elements) "}\n")]
+    [(html) (txexpr 'div '((class "CVname")) elements)]))
 
 (define (CVaddress . elements)
-  `(txt "{\\large \\textsc{" ,@elements "}}\n"))
+  (case (current-poly-target)
+    [(pdf ltx) `(txt "{\\large \\textsc{" ,@elements "}}\n")]
+    [(html) (txexpr 'div '((class "CVaddress")) elements)]))
 
 (define (CVphone . elements)
-  `(txt "{\\normalsize " ,@elements "}"))
+  (case (current-poly-target)
+    [(pdf ltx) `(txt "{\\normalsize " ,@elements "}")]
+    [(html) (txexpr 'span '((class "CVphone")) elements)]))
 
 (define (CVemail . elements)
-  `(txt "{\\normalsize \\href{mailto:" ,@elements "}{" ,@elements "}}"))
+  (case (current-poly-target)
+    [(pdf ltx)
+     `(txt "{\\normalsize "
+           "\\href{mailto:" ,@elements "}{" ,@elements "}}")]
+    [(html)
+     (txexpr 'span '((class "CVemail")) elements)]))
 
-(define (CVsection #:title title . elems)
-    `(txt "\\vspace{10mm} \\hrule \\vspace{ -2mm}"
-      "\n{\\scshape \\bfseries \\small " ,title "}"
-      "\n\n ",@elems))
+(define (CVsection #:title title . elements)
+  (case (current-poly-target)
+    [(pdf ltx) `(txt "\\vspace{10mm} \\hrule \\vspace{ -2mm}"
+                     "\n{\\scshape \\bfseries \\small " ,title "}"
+                     "\n\n ",@elements)]
+    [(html) (txexpr 'span '((class "CVsection")) elements)]))
 
-(define (CVobject #:period [period ""] . elems)
-    `(txt "{\\large " ,@elems " \\hfill " ,period "}\n"))
+(define (CVobject #:period [period ""] . elements)
+  (case (current-poly-target)
+    [(pdf ltx) `(txt "{\\large " ,@elements " \\hfill " ,period "}\n")]
+    [(html) (txexpr 'span '((class "CVobject")) elements)]))
 
-(define (CVitems . elems)
-  `(txt "\\begin{itemize}["
-    ;; no big margin
-    "leftmargin=*,"
-    ;; tiny bullet
-    "label=\\raisebox{0.25ex}{\\tiny$\\bullet$}]\n"
-    ,@elems
-    "\n\\end{itemize}"))
+(define (CVitems . elements)
+  (case (current-poly-target)
+    [(pdf ltx) `(txt "\\begin{itemize}["
+                     ;; no big margin
+                     "leftmargin=*,"
+                     ;; tiny bullet
+                     "label=\\raisebox{0.25ex}{\\tiny$\\bullet$}]\n"
+                     ,@elements
+                     "\n\\end{itemize}")]
+    [(html) (txexpr 'ul empty elements)]))
 
-(define (CVitem
-         #:bullet [bullet #t]
-         #:tag [tag #f]
-         #:tagsize [tagsize "7cm"]
-         . elems)
-  ;; conditionally set pieces of item
-  `(txt "\\item" ,(if bullet "" "[]") " "
-        ,@(if tag `("\\noindent\\hbox to" ,tagsize "{" ,tag "\\hfill}") '())
-        ,@elems))
+(define (CVitem #:bullet [bullet #t]
+                #:tag [tag #f]
+                #:tagsize [tagsize 0.48]
+                . elements)
+
+  (case (current-poly-target)
+    ;; conditionally set pieces of item
+    [(pdf ltx)
+     `(txt "\\item" ,(if bullet "" "[]") " "
+           ,@(if tag `("\\noindent\\hbox to"
+                       ,(~a tagsize) "\\textwidth{" ,tag "\\hfill}") '())
+           ,@elements)]
+    [(html)
+     (txexpr 'li `((class "CVitem")
+                   (style ,(if bullet "" "list-style-type: none;")))
+             ;; merge tag with other elements
+             `( ,(if tag
+                     ;; apply proper attrs to tag
+                     (attr-set*
+                      (cond
+                        ;; enclose string in a x-expression
+                        [(string? tag) (txexpr 'span empty (list tag))]
+                        [(xexpr? tag) tag])
+                      'class "tag"
+                      'style (string-append
+                              "display: inline-block; width: "
+                              (~a (* 100 tagsize)) "%"))
+                     "")
+                ,@elements))]))
 
 (define (root . items)
-  (decode (txexpr 'root '() items)
+  (decode (txexpr 'body '() items)
           #:string-proc tex-C++))
 
 (define (make-latex-source doc)
