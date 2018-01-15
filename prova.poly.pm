@@ -4,7 +4,7 @@
   ◊CVname{Enrico Lovisotto}
   ◊CVaddress{via Antonio Gardin 7,
   31020 San Fior (TV), Italy}
-  ◊CVphone{(+39) 340 96 858 72}, ◊url[#:mail true]{enricolovisotto@gmail.com}
+  ◊CVphone{(+39) 340 96 858 72}, ◊url[#:mail #t]{enricolovisotto@gmail.com}
 }
 
 ◊CVsection[#:title "Education"]{
@@ -49,7 +49,7 @@
       Python, R, Matlab, C++, Rust, Racket
     }
     ◊CVitem[#:tag "Data analysis and machine learning"]{
-      Pandas, Scikit-learn, R data frames, ggplot
+      Pandas, Scikit-learn, R dataframes
     }
     ◊CVitem[#:tag "Foreign languages"]{
       English B2, certified by Padova university
