@@ -1,5 +1,7 @@
 #lang pollen
 
+◊require{classes.rkt}
+
 ◊CVheader{
   ◊CVname{Name Surname}
   ◊CVaddress{Street Something 32, Somewhere}
