@@ -16,6 +16,7 @@
             Lovisotto, ◊sl{et alia}, ◊url[
                 #:link "http://ieeexplore.ieee.org/document/7937674/"]{
                 Cell traffic prediction using joint spatio-temporal information},
+
             ◊sl{6th International Conference on Modern Circuits and Systems Technologies}, 2017}}
 
   ◊CVobject[#:period "2003--2005"]{Relevant master courses}

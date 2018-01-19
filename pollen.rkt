@@ -1,6 +1,4 @@
-#lang pollen/mode racket/base
-(require racket/string racket/format)
-(require racket/contract)
+#lang pollen/mode racket
 
 (require pollen/setup pollen/decode txexpr)
 
@@ -198,18 +196,22 @@
   (case (current-poly-target)
     ;; conditionally set pieces of item
     [(pdf ltx)
-     `(txt "\\item" ,(if bullet "" "[]") " "
-           ,@(if (non-empty-string? tag)
-                 `("\\noindent\\hbox to 0.48\\textwidth{" ,tag "\\hfill}")
-                 '())
-           ,@elements)]
+     (txexpr-ext
+      'txt empty
+      `("\\item" ,(if bullet "" "[]") " "
+                ,@(if (eq? tag "")
+                      '()
+                      `("\\noindent\\hbox to 0.48\\textwidth{" ,tag "\\hfill}"))
+                ,@elements))]
     [(html)
-     (txexpr-ext 'li `((class "CVitem")
-                   (style ,(if bullet "" "list-style-type: none;")))
-             `( ,(if (non-empty-string? tag)
-                     ;; put tag inside a span of fixed width, for alignment
-                     (txexpr-ext 'span `((class "tag")
-                                     (style ,(string-append
-                                              "display: inline-block;")))
-                             (list tag)) "")
-                ,@elements))]))
+     (txexpr-ext
+      'li
+      `((class "CVitem")
+        (style ,(if bullet "" "list-style-type: none;")))
+      `( ,(if (eq? tag "") ""
+              ;; put tag inside a span of fixed width, for alignment
+              (txexpr-ext 'span `((class "tag")
+                                  (style ,(string-append
+                                           "display: inline-block;")))
+                          (list tag)))
+         ,@elements))]))
