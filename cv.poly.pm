@@ -1,11 +1,9 @@
 #lang pollen
 
-◊require{classes.rkt}
-
 ◊CVheader{
   ◊CVname{Name Surname}
   ◊CVaddress{Street Something 32, Somewhere}
-  ◊CVphone{555 3030}, ◊url[#:mail #t]{mail@example.com}
+  ◊CVphone{555 3030}, ◊CVemail{mail@example.com}
 }
 
 ◊CVsection[#:title "Education"]{
@@ -13,49 +11,37 @@
   ◊CVitems{
     ◊CVitem{Degree on Information Engineering}
     ◊CVitem{Thesis analyzing NASA Kepler observations with ◊sl{machine learning} tools}
-    ◊CVitem{Pubblication on IEEE MOCAST}
-    ◊CVitem[#:bullet #f]{Lovisotto, ◊sl{et alia},
-            ◊url[#:link "http://ieeexplore.ieee.org/document/7937674/"]{
-            Cell traffic prediction using joint spatio-temporal information},
+    ◊CVitem{Pubblication on IEEE MOCAST
 
-            ◊sl{6th International Conference on Modern Circuits and Systems Technologies}, 2017}
-  }
+            Lovisotto, ◊sl{et alia}, ◊url[
+                #:link "http://ieeexplore.ieee.org/document/7937674/"]{
+                Cell traffic prediction using joint spatio-temporal information},
+            ◊sl{6th International Conference on Modern Circuits and Systems Technologies}, 2017}}
 
   ◊CVobject[#:period "2003--2005"]{Relevant master courses}
   ◊CVitems{
     ◊CVitem[
       #:tag ◊url[#:link "http://en.didattica.unipd.it/off/2016/LM/IN/IN0524/000ZZ/INN1027895/N0"]{
-      Telecommunication Networks}
-    ]{Andrea Zanella}
-
+      Telecommunication Networks}]{Andrea Zanella}
     ◊CVitem[
       #:tag ◊url[#:link "http://en.didattica.unipd.it/off/2016/LM/IN/IN0524/000ZZ/INP6075439/N0"]{
-      Wireless Communications}
-    ]{Michele Rossi}
-
+      Wireless Communications}]{Michele Rossi}
     ◊CVitem[
       #:tag ◊url[#:link "http://en.didattica.unipd.it/off/2016/LM/IN/IN0521/000ZZ/INP3049939/N0"]{
-      Network Modeling}
-    ]{Michele Zorzi}
-
+      Network Modeling}]{Michele Zorzi}
     ◊CVitem[
       #:tag ◊url[#:link "http://en.didattica.unipd.it/off/2016/LM/IN/IN0524/000ZZ/INP6075820/N0"]{
-      Antennas and Wireless Propagation}
-    ]{Marco Santagiustina}
+      Antennas and Wireless Propagation}]{Marco Santagiustina}
   }
 
   ◊CVobject{Miscellaneous}
   ◊CVitems{
     ◊CVitem[#:tag "Programming languages"]{
-      Python, R, Matlab, C++, Rust, Racket
-    }
+      Python, R, Matlab, C++, Rust, Racket}
     ◊CVitem[#:tag "Data analysis and machine learning"]{
-      Pandas, Scikit-learn, R dataframes
-    }
+      Pandas, Scikit-learn, R dataframes}
     ◊CVitem[#:tag "Foreign languages"]{
-      English B2, certified by Padova university
-    }
-  }
+      English B2, certified by Padova university}}
 }
 
 ◊CVsection[#:title "Work experiences"]{
