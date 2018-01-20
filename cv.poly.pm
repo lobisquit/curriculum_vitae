@@ -4,6 +4,8 @@
 ◊require{classes.rkt}
 ◊require{styles.rkt}
 
+◊define-meta[title]{Curriculum Vitae}
+
 ◊CVheader{
   ◊CVname{Name Surname}
   ◊CVaddress{Street Something 32, Somewhere}

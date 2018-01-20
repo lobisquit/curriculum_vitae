@@ -1,8 +1,10 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Custom template</title>
+  <title>◊(select-from-metas 'title metas)</title>
   <link rel="stylesheet" type="text/css" href="styles/style.css">
 </head>
-<body>◊(->html doc)</body>
+<body>
+    ◊(->html doc)
+</body>
 </html>
