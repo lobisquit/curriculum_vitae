@@ -221,7 +221,13 @@ TSWLatexianTemp*
 
 ####
 
-# pollen output files
+# pollen work directories
 pollen-latex-work/*
 compiled/*
+*/compiled/*
+
+# pollen output files
 *.pdf
+*.ltx
+*.html
+*.css
