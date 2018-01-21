@@ -5,6 +5,11 @@
 
 (module setup racket/base
   (provide (all-defined-out))
+  ;; add custom list of files to watch (i.e. submodules)
+  (require syntax/modresolve)
+  (define cache-watchlist (map resolve-module-path '("classes.rkt"
+                                                     "styles.rkt"
+                                                     "utils.rkt")))
   (define poly-targets '(html ltx pdf)))
 
 (provide (all-defined-out))
