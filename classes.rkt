@@ -45,7 +45,7 @@
   ((#:title string?) () #:rest txexpr-elements? . ->* . txexpr?)
   (let ((title (bf (list (sc title)))))
     (case (current-poly-target)
-      [(pdf ltx) `(txt "\\vspace{10mm} \\hrule \\vspace{ -2mm}"
+      [(pdf ltx) `(txt "\\vspace{5mm} \\hrule \\vspace{ -2mm}"
                        "\n{\\small " ,title "}"
                        "\n\n ",@elements)]
       [(html) (txexpr-ext 'div '((class "CVsection"))
@@ -56,12 +56,15 @@
 (define/contract (CVobject #:period [period ""] . elements)
   (() (#:period string?) #:rest elements? . ->* . txexpr?)
   (case (current-poly-target)
-    [(pdf ltx) `(txt "{\\large " ,@elements " \\hfill " ,period "}\n")]
+    [(pdf ltx) `(txt "{\\large " ,@elements " \\hfill " ,period "}\n "
+                     "\\vspace{-2mm}")]
     [(html) (txexpr-ext 'div '((class "CVobject"))
-                    `( ,(txexpr-ext 'span empty elements)
-                       ,(txexpr-ext 'span
-                                    '((style "float: right;"))
-                                    period)))]))
+                        `( ,(txexpr-ext 'span
+                                        '((class "object"))
+                                        elements)
+                           ,(txexpr-ext 'span
+                                        '((class "period"))
+                                        period)))]))
 
 (define/contract (CVitems . elements)
   (() () #:rest elements? . ->* . txexpr?)

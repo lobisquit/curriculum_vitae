@@ -41,3 +41,14 @@
     (case (current-poly-target)
       [(pdf ltx) (txexpr-ext 'txt empty `("\\href{" ,uri  "}{" ,@elements "}"))]
       [(html) (txexpr-ext 'a `((href ,uri)) elements)])))
+
+(define (measure? x)
+  (and
+   (list? x)
+   (= 2 (length x))
+   (real? (first x))
+   (string? (second x))))
+
+(define/contract (mult-measure num measure)
+  (real? measure? . -> . string?)
+  (~a (* num (first measure)) (second measure)))
