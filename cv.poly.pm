@@ -12,6 +12,14 @@
   ◊CVphone{555 3030}, ◊CVemail{mail@example.com}
 }
 
+◊CVsection[#:title "Personal information"]{
+  Put description here?
+  ◊CVitems{
+    ◊CVitem{Interest in ◊sl{machine learning}}
+    ◊CVitem{???}
+  }
+}
+
 ◊CVsection[#:title "Education"]{
   ◊CVobject[#:period "2000-2003"]{Bachelor at Padova University}
   ◊CVitems{
@@ -23,7 +31,7 @@
                 #:link "http://ieeexplore.ieee.org/document/7937674/"]{
                 Cell traffic prediction using joint spatio-temporal information},
 
-            ◊sl{6th International Conference on Modern Circuits and Systems Technologies}, 2017}}
+            6th International Conference on Modern Circuits and Systems Technologies, 2017}}
 
   ◊CVobject[#:period "2003--2005"]{Relevant master courses}
   ◊CVitems{
@@ -41,7 +49,7 @@
       Antennas and Wireless Propagation}]{Marco Santagiustina}
   }
 
-  ◊CVobject{Miscellaneous}
+  ◊CVobject{Other skills acquired}
   ◊CVitems{
     ◊CVitem[#:tag "Programming languages"]{
       Python, R, Matlab, C++, Rust, Racket}
@@ -52,8 +60,9 @@
 }
 
 ◊CVsection[#:title "Work experiences"]{
-◊CVobject[#:period "2004"]{Internship}
-◊CVitems{
-  ◊CVitem{IT support of cardiac ward technicians}
-  ◊CVitem{Assistence of medical staff: MS Windows, MS Office, Ubuntu GNU/Linux server}
+   ◊CVobject[#:period "2004"]{Internship}
+   ◊CVitems{
+      ◊CVitem{IT support of cardiac ward technicians}
+      ◊CVitem{Assistence of medical staff: MS Windows, MS Office, Ubuntu GNU/Linux server}
+   }
 }

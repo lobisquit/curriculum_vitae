@@ -231,3 +231,6 @@ compiled/*
 *.ltx
 *.html
 *.css
+
+# private CV
+private.poly.pm
